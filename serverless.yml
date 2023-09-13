@@ -71,6 +71,20 @@ functions:
       - http:
           path: /restore
           method: POST
+  login:
+    handler: app/auth/login.login
+    # timeout: 20
+    events:
+      - http:
+          path: /login
+          method: POST
+  login:
+    handler: app/auth/signup.signup
+    # timeout: 20
+    events:
+      - http:
+          path: /signup
+          method: POST
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
