@@ -2,16 +2,12 @@ const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcrypt");
 const prisma = new PrismaClient();
 module.exports.signup = async (event) => {
-  const { name, email, password, number } = req.body;
-  // password = "Somesh22@";
-  const salt = await bcrypt.genSalt(10);
-  console.log(salt);
-  const bcryptpass = await bcrypt.hash(password, salt);
-  console.log(bcryptpass);
+  const eventBody = JSON.parse(event.body);
+  const { name, email, password, number } = eventBody;
 
-  //decrypt password
-  // const isMatch = await bcrypt.compare(password, bcryptpass);
-  // console.log(isMatch);
+  //encrypt password
+  const salt = await bcrypt.genSalt(10);
+  const bcryptpass = await bcrypt.hash(password, salt);
 
   const alreadyExists = await prisma.user.findUnique({
     where: {
@@ -21,12 +17,20 @@ module.exports.signup = async (event) => {
 
   if (alreadyExists) {
     console.log("User already exists");
-    return;
+    return {
+      statusCode: 409,
+      body: JSON.stringify({ message: "User already exists" }),
+    };
   }
 
   if (password.length < 8) {
     console.log("Password must be 8 characters or longer");
-    return;
+    return {
+      statusCode: 409,
+      body: JSON.stringify({
+        message: "Password must be 8 characters or longer",
+      }),
+    };
   }
 
   try {
@@ -46,5 +50,3 @@ module.exports.signup = async (event) => {
     console.error(error);
   }
 };
-
-main();

@@ -1,13 +1,12 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 module.exports.login = async (event) => {
   try {
-    const body = JSON.parse(event.body);
-    const { email, password } = body;
-
-    console.log(email, password);
+    const eventBody = JSON.parse(event.body);
+    const { email, password } = eventBody;
 
     const user = await prisma.user.findUnique({
       where: { email },
@@ -21,7 +20,7 @@ module.exports.login = async (event) => {
       };
     }
 
-    //decrypt password
+    //decrypting the password
     const isMatch = await bcrypt.compare(password, user.password);
     console.log(isMatch);
 
@@ -38,13 +37,15 @@ module.exports.login = async (event) => {
       { _id: id, name, email: userEmail },
       process.env.JWT_SECRET
     );
-
-    console.log(token);
-    console.log(user);
+    //this are only for debugging purpose
+    // console.log(token);
+    // console.log(user);
+    // console.log(email, password);
 
     return {
       statusCode: 200,
       body: JSON.stringify({
+        statusCode: 200,
         token,
         user: { _id: id, name, email: userEmail },
       }),

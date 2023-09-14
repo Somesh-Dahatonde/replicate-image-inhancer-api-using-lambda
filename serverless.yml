@@ -78,7 +78,7 @@ functions:
       - http:
           path: /login
           method: POST
-  login:
+  signup:
     handler: app/auth/signup.signup
     # timeout: 20
     events:
