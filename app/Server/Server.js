@@ -1,11 +1,11 @@
-const Replicate = require("replicate"); // Import the 'replicate' module if you haven't already
-const dotenv = require("dotenv"); // Import the 'dotenv' module if you haven't already
-dotenv.config(); // Load the '.env' file if you haven't already
-module.exports.restore = async (event) => {
-  const body = JSON.parse(event.body);
-  const { imageUrl, model, ScaleValue } = body;
-  console.log(body);
+const Replicate = require("replicate");
+const dotenv = require("dotenv");
+dotenv.config();
 
+module.exports.restore = async (event) => {
+  const eventBody = JSON.parse(event.body);
+  const { imageUrl, model, ScaleValue } = eventBody;
+  // console.log(eventBody);
   const replicate = new Replicate({
     auth: process.env.REPLICATE_API_TOKEN,
   });
@@ -21,19 +21,16 @@ module.exports.restore = async (event) => {
         },
       }
     );
-    console.log(output);
-    // You can manipulate the output as needed and send it back
+    // console.log(output);
     return {
       statusCode: 200,
-      body: JSON.stringify({ restoredImage: output }, null, 2),
+      body: JSON.stringify({ restoredImage: output }),
     };
   } catch (error) {
     console.error(error);
-
-    // If there's an error, return a 500 status code and an error message
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message }, null, 2),
+      body: JSON.stringify({ error: error.message }),
     };
   }
 };

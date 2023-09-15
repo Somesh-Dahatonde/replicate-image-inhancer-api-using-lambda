@@ -1,6 +1,9 @@
 const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcrypt");
+const { json } = require("body-parser");
 const prisma = new PrismaClient();
+const createError = require("http-errors");
+
 module.exports.signup = async (event) => {
   const eventBody = JSON.parse(event.body);
   const { name, email, password, number } = eventBody;
@@ -47,6 +50,10 @@ module.exports.signup = async (event) => {
       body: JSON.stringify({ message: "User Created" }),
     };
   } catch (error) {
-    console.error(error);
+    // return createError(500, "something went wrong plz try after some time");
+    return {
+      statusCode: 502,
+      body: JSON.stringify({ error: error.message }),
+    };
   }
 };

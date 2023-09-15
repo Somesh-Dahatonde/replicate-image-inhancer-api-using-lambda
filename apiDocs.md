@@ -6,10 +6,9 @@ Welcome to the API documentation for [Your API Name].
 
 Provide a brief introduction to your API, explaining its purpose and what developers can achieve using it.
 
-## Base URL
+## Localhost URL
 
-- **Base URL**: `https://api.example.com`
-- **Authentication**: [Explain how authentication works if required]
+- **Localhost URL**: `https://localhost:4000/`
 
 #### 1. `LOGIN`
 
@@ -25,7 +24,8 @@ Provide a brief introduction to your API, explaining its purpose and what develo
   ```
 
 - **Response**:
-  ```{
+  ```json
+  data: {
     "statusCode": 200,
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjYsIm5hbWUiOiJ0ZXN0MSIsImVtYWlsIjoidGVzdC5hZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2OTQ2MzA0ODF9.5mSjFzk-HhN_O2gOIwBcTNVFGGaMAVtKkpgVb61RAPk",
     "user": {
@@ -56,7 +56,7 @@ Provide a brief introduction to your API, explaining its purpose and what develo
   ```json
   {
     "statusCode": 200,
-    "message": "User created successfully"
+    "message": "User Signup successfully"
   }
   ```
 
