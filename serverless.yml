@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: trendmicro
+service: renewpixpro
 # app and org for use with dashboard.serverless.com
 #app: your-app-name
 #org: your-org-name
@@ -23,8 +23,11 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs18.x
-  stage: dev
-  region: us-east-1
+  region: ${opt:region, 'ap-south-1'}
+  stage: ${opt:stage, 'dev'}
+  memorySize: 512 # Overwrite the default memory size. Default is 1024
+  apiGateway:
+    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
 # you can overwrite defaults here
 
 # you can add statements to the Lambda function's IAM Role here
@@ -58,8 +61,8 @@ provider:
 #    - include-me-dir/**
 
 functions:
-  hello:
-    handler: app/healthcheck/healthCheck.hello
+  healthCheck:
+    handler: app/healthcheck/healthCheck.healthcheck
     events:
       - http:
           path: /healthCheck

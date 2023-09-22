@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports.hello = async (event) => {
+module.exports.healthcheck = async (event) => {
   try {
     return {
       statusCode: 200,

@@ -19,19 +19,24 @@ module.exports.signup = async (event) => {
   });
 
   if (alreadyExists) {
-    console.log("User already exists");
     return {
       statusCode: 409,
-      body: JSON.stringify({ message: "User already exists" }),
+      body: JSON.stringify({
+        error: {
+          statusCode: 409,
+          message: `User with email${email} already exits plz login`,
+        },
+      }),
     };
   }
 
   if (password.length < 8) {
-    console.log("Password must be 8 characters or longer");
     return {
       statusCode: 409,
       body: JSON.stringify({
-        message: "Password must be 8 characters or longer",
+        error: {
+          message: "Password must be 8 characters or longer",
+        },
       }),
     };
   }
@@ -42,12 +47,12 @@ module.exports.signup = async (event) => {
         name: name,
         email: email,
         password: bcryptpass,
-        number: number,
+        number: 123,
       },
     });
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "User Created" }),
+      body: JSON.stringify({ message: "Signup Sucessful" }),
     };
   } catch (error) {
     // return createError(500, "something went wrong plz try after some time");
