@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { json } = require("body-parser");
 const prisma = new PrismaClient();
 const createError = require("http-errors");

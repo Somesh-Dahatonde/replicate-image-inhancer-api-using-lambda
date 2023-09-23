@@ -1,7 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 module.exports.login = async (event) => {
   const secretKey = process.env.JWT_SECRET;
@@ -24,9 +24,8 @@ module.exports.login = async (event) => {
       };
     }
 
-    //decrypting the password
+    // Decrypting the password
     const isMatch = await bcrypt.compare(password, user.password);
-    // console.log(isMatch);
 
     if (!isMatch) {
       console.log("Invalid credentials");
@@ -38,9 +37,14 @@ module.exports.login = async (event) => {
       };
     }
 
-    const { id, name, email: string } = user;
+    // Create a user object with the necessary properties for the token
+    const userForToken = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    };
 
-    const token = jwt.sign(user, secretKey, {
+    const token = jwt.sign(userForToken, secretKey, {
       expiresIn: expirationTimeInSeconds,
     });
 
@@ -55,7 +59,9 @@ module.exports.login = async (event) => {
     console.error(error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: "Internal Server Error" }),
+      body: JSON.stringify({ error: error.message }),
     };
+  } finally {
+    await prisma.$disconnect(); // Disconnect from Prisma client when done
   }
 };
