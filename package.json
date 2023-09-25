@@ -1,16 +1,23 @@
 {
   "devDependencies": {
-    "prisma": "^5.2.0",
-    "serverless-offline": "^12.0.4"
+    "@types/bcryptjs": "^2.4.4",
+    "@types/jsonwebtoken": "^9.0.3",
+    "prisma": "^5.3.1",
+    "serverless-offline": "^12.0.4",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@prisma/client": "^4.10.1",
+    "@middy/core": "^4.6.4",
+    "@middy/do-not-wait-for-empty-event-loop": "^4.6.4",
+    "@middy/http-cors": "^4.6.4",
+    "@prisma/client": "^5.3.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",
     "http-errors": "^2.0.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
+    "middy": "^0.36.0",
     "replicate": "^0.17.0"
   },
   "scripts": {

@@ -21,6 +21,23 @@ service: renewpixpro
 frameworkVersion: "3"
 useDotenv: true
 
+custom:
+  # plugin:serverless-offline configuration
+  serverless-offline:
+    port: 3000
+
+  corsSettings:
+    origin: "*"
+    headers:
+      - Content-Type
+      - Authorization
+      - Access-Control-Allow-Headers
+      - Access-Control-Allow-Origin
+
+  # plugin:serverless-offline configuration
+plugins:
+  - serverless-offline
+
 provider:
   name: aws
   runtime: nodejs18.x
@@ -75,6 +92,7 @@ functions:
       - http:
           path: /restore
           method: POST
+          cors: ${self:custom.corsSettings}
   login:
     handler: app/auth/login.login
     # timeout: 20
@@ -82,6 +100,7 @@ functions:
       - http:
           path: /login
           method: POST
+          cors: ${self:custom.corsSettings}
   signup:
     handler: app/auth/signup.signup
     # timeout: 20
@@ -89,7 +108,7 @@ functions:
       - http:
           path: /signup
           method: POST
-
+          cors: ${self:custom.corsSettings}
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
@@ -138,8 +157,4 @@ functions:
 #     NewOutput:
 #       Description: "Description for the output"
 #       Value: "Some output value"
-plugins:
-  - serverless-offline
-custom:
-  serverless-offline:
-    httpPort: 4000
+

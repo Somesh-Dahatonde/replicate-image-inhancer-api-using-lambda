@@ -2,7 +2,6 @@ const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcryptjs");
 const { json } = require("body-parser");
 const prisma = new PrismaClient();
-const createError = require("http-errors");
 
 module.exports.signup = async (event) => {
   const eventBody = JSON.parse(event.body);

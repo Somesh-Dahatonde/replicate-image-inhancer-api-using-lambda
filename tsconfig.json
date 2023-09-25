@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "strictNullChecks": true,
+    "strict": true,
+    "outDir": "bin",
+    "target": "es2018",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "pretty": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "strictPropertyInitialization": true,
+    "lib": ["es2020"]
+  },
+  "include": ["./**/*.ts", "./**/*.spec.ts", "app/auth/login.js"],
+  "exclude": [
+    "node_modules/**/*",
+    ".serverless/**/*",
+    ".webpack/**/*",
+    "_warmup/**/*",
+    ".vscode/**/*"
+  ]
+}
