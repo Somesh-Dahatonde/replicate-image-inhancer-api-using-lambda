@@ -6,17 +6,13 @@ const bcrypt = require("bcryptjs");
 module.exports.login = async (event) => {
   const secretKey = process.env.JWT_SECRET;
   const expirationTimeInSeconds = 3600; // Token expires in 1 hour (you can adjust this as needed)
-  console.log("out of try ========>", typeof event.body);
   const eventBody = JSON.parse(event.body);
   const { email, password } = eventBody;
 
   try {
-    console.log("in try ========>", eventBody.email);
-    console.log("in try ========>", typeof event.body);
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: email },
     });
-
     if (!user) {
       console.log("User does not exist");
       return {
