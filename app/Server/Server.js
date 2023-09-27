@@ -14,13 +14,8 @@ module.exports.restore = async (event) => {
     // No JWT provided, so return a 401 Unauthorized response
     return {
       statusCode: 401,
-      headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000", // or your desired origin
-        "Access-Control-Allow-Credentials": true,
-      },
       body: JSON.stringify({
         error: "Authentication failed. No JWT provided.",
-        headers,
       }),
     };
   }
@@ -45,20 +40,18 @@ module.exports.restore = async (event) => {
     return {
       statusCode: 200,
       headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000", // or your desired origin
-        "Access-Control-Allow-Credentials": true,
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
       },
-      body: JSON.stringify({ headers, restoredImage: output }),
+      body: JSON.stringify({ restoredImage: output }),
     };
   } catch (error) {
     console.error(error);
     return {
       statusCode: 500,
-      headers: {
-        "Access-Control-Allow-Origin": "http://localhost:3000", // or your desired origin
-        "Access-Control-Allow-Credentials": true,
-      },
-      body: JSON.stringify({ headers, error: error.message }),
+      body: JSON.stringify({ error: error.message }),
     };
   }
 };
