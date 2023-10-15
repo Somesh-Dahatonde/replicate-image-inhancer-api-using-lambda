@@ -8,6 +8,13 @@ module.exports.login = async (event) => {
   const expirationTimeInSeconds = 3600; // Token expires in 1 hour (you can adjust this as needed)
   const eventBody = JSON.parse(event.body);
   const { email, password } = eventBody;
+  const CORS_HEADERS = {
+    "Access-Control-Allow-Origin": "https://renewpixpro.netlify.app",
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Headers":
+      "X-Requested-With, Origin, Content-Type, Accept, Authorization",
+    "Access-Control-Allow-Methods": "OPTIONS, POST",
+  };
 
   try {
     const user = await prisma.user.findUnique({
@@ -17,6 +24,7 @@ module.exports.login = async (event) => {
       console.log("User does not exist");
       return {
         statusCode: 404,
+        headers: CORS_HEADERS,
         body: JSON.stringify({
           error: { statusCode: 404, message: "User does not exist" },
         }),
@@ -30,6 +38,7 @@ module.exports.login = async (event) => {
       console.log("Invalid credentials");
       return {
         statusCode: 401,
+        headers: CORS_HEADERS,
         body: JSON.stringify({
           error: { statusCode: 401, message: "Invalid credentials" },
         }),
@@ -41,6 +50,7 @@ module.exports.login = async (event) => {
       id: user.id,
       name: user.name,
       email: user.email,
+      number: user.number,
     };
 
     const token = jwt.sign(userForToken, secretKey, {
@@ -49,17 +59,16 @@ module.exports.login = async (event) => {
 
     return {
       statusCode: 200,
+      headers: CORS_HEADERS,
       body: JSON.stringify({
-        statusCode: 200,
         token,
       }),
     };
   } catch (error) {
     console.error(error);
-    console.log("in try ========>", eventBody.email);
-    console.log("in catch ========>", typeof event.body);
     return {
       statusCode: 500,
+      headers: CORS_HEADERS,
       body: JSON.stringify({ error: error.message }),
     };
   }
